@@ -1,3 +1,4 @@
+// Copyright 2021 NNTU-CS
 #include <iostream>
 #include <ctime>
 #include <iomanip>
@@ -58,8 +59,7 @@ int countPairs3(int* arr, int len, int value) {
             }
             if (arr[mid] > find) {
                 end = mid - 1;
-            }
-            else {
+            } else {
                 start = mid + 1;
             }
         }
