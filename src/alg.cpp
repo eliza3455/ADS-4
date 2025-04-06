@@ -40,44 +40,32 @@ int countPairs2(int* arr, int len, int value) {
 }
 
 int countPairs3(int* arr, int len, int value) {
-    int count = 0, mid = 0, start = 0, end = len,
-        i = 0, find = 0, mid2 = 0;
-    for (int i = 0; i < len; i++) {
-        find = value - arr[i];
-        start = i + 1;
-        end = len - 1;
-        bool flag = false;
-        if (arr[i] > value) {
+    int count = 0;
+    for (int i = 0; i < len - 1; ++i) {
+        if (arr[i] > value)
             break;
-        }
-        while ((start <= end) && (!flag)) {
-            mid = (start + end) / 2;
-            if (arr[mid] == find) {
-                flag = true;
-                mid2 = mid;
-                count++;
-            }
-            if (arr[mid] > find) {
-                end = mid - 1;
+
+        int target = value - arr[i];
+        int left = i + 1;
+        int right = len - 1;
+        int first = -1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] == target) {
+                first = mid;
+                right = mid - 1;
+            } else if (arr[mid] < target) {
+                left = mid + 1;
             } else {
-                start = mid + 1;
+                right = mid - 1;
             }
         }
-        while (arr[mid] == find) {
-            mid++;
-            if (arr[mid] == find) {
-                count++;
-            }
-        }
-        mid = mid2;
-        while ((arr[mid] == find) && (--mid > i)) {
-            if (arr[mid] == find) {
-                count++;
-            }
+        if (first != -1) {
+            int last = first;
+            while (last + 1 < len && arr[last + 1] == target)
+                ++last;
+            count += (last - first + 1);
         }
     }
-    if (count != 0) {
-        return count;
-    }
-    return 0;
+    return count;
 }
